@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73c712d533c79b740a483f97b81d8885, type: 3}
+  m_Name: Shed
+  m_EditorClassIdentifier: 
+  roomName: Shed
+  roomCamera: {fileID: 3848240267909726470, guid: 2419c64a88e2fb34d8b0140a060f84f6,
+    type: 3}
+  anomalies: []
