@@ -30,6 +30,9 @@ public class GameStateChannelSO : ScriptableObject
     public delegate void TriggerPlayerInteractionCallback(bool value);
     public TriggerPlayerInteractionCallback OnTriggerPlayerInteraction;
 
+    public delegate void WinGameCallback();
+    public WinGameCallback OnWinGame;
+
     public void LoadSceneAction(string name)
     {
         OnLoadScene?.Invoke(name);
@@ -68,5 +71,10 @@ public class GameStateChannelSO : ScriptableObject
     public void TriggerPlayerInteractionAction(bool value)
     {
         OnTriggerPlayerInteraction?.Invoke(value);
+    }
+
+    public void WinGameAction()
+    {
+        OnWinGame?.Invoke();
     }
 }

@@ -12,11 +12,18 @@ public class GameTime : MonoBehaviour
     [SerializeField] float timeBeforeAnomalies;
     [SerializeField] float winTime = 360;
     public float timeScale = 0.25f;
+    float playAudioEvery = 60;
+    float minutesPassed = 0;
+
+
+    [Header("Sounds")]
+    [SerializeField] AudioClipDataSO timePassAudio;
 
     [Header("Event Channels")]
     [SerializeField] UIChannelSO uiChannel;
     [SerializeField] AnomalyChannelSO anomalyChannel;
     [SerializeField] GameStateChannelSO gameStateChannel;
+    [SerializeField] SoundChannelSO soundChannel;
 
     private void Start()
     {
@@ -27,6 +34,7 @@ public class GameTime : MonoBehaviour
     {
         isTime = false;
         hasGameIntro = false;
+        minutesPassed += playAudioEvery;
     }
 
     private void OnEnable()
@@ -62,6 +70,12 @@ public class GameTime : MonoBehaviour
             CheckIntroTimer();
         }
 
+        if(gameTime > minutesPassed)
+        {
+            minutesPassed += playAudioEvery;
+            soundChannel.PlayAudioAction(timePassAudio);
+        }
+
         CheckWinTime();
     }
 
@@ -80,7 +94,7 @@ public class GameTime : MonoBehaviour
         {
             TriggerGameTime(false);
             gameStateChannel.UpdateGameTimeAction(winTime);
-            //Llamar evento de win
+            gameStateChannel.OnWinGame();
         }
     }
 }

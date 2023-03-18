@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     [Header("UI Manager Settings")]
     [SerializeField] TextMeshProUGUI roomNameText;
     [SerializeField] float reportTime;
+    [SerializeField] GameObject gameplayUIParent;
 
     [Header("Screen Messages")]
     [SerializeField] GameObject camSwitchScreen;
@@ -77,6 +78,7 @@ public class UIManager : MonoBehaviour
         uiChannel.OnPlayFixAnomalyScreen += StartFixAnomalyCoroutine;
         uiChannel.OnStartGameIntro += PlayIntro;
         gameStateChannel.OnTriggerPlayerInteraction += TriggerInteraction;
+        gameStateChannel.OnWinGame += DisableGameplayUI;
     }
 
     private void OnDisable()
@@ -88,6 +90,7 @@ public class UIManager : MonoBehaviour
         uiChannel.OnPlayFixAnomalyScreen -= StartFixAnomalyCoroutine;
         uiChannel.OnStartGameIntro -= PlayIntro;
         gameStateChannel.OnTriggerPlayerInteraction -= TriggerInteraction;
+        gameStateChannel.OnWinGame -= DisableGameplayUI;
     }
 
     private void Start()
@@ -360,6 +363,11 @@ public class UIManager : MonoBehaviour
     {
         anomalyChannel.StartSpawnTimerAction();
         uiChannel.ResetIntroTimelineAction();
+    }
+
+    private void DisableGameplayUI()
+    {
+        gameplayUIParent.SetActive(false);
     }
 
 

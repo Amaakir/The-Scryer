@@ -11,10 +11,12 @@ public class SoundManager : MonoBehaviour
     [Header("Music Tracks per Scene")]
     [SerializeField] AudioClipDataSO musicMainMenu;
     [SerializeField] AudioClipDataSO musicMansionScene;
+    [SerializeField] AudioClipDataSO musicWinScreen;
 
     [Header("SFX Tracks")]
     [SerializeField] AudioClipDataSO staticShort;
     [SerializeField] AudioClipDataSO staticLong;
+    [SerializeField] AudioClipDataSO timeTick;
 
     [Header("Event Channels")]
     [SerializeField] SoundChannelSO soundChannel;
@@ -30,6 +32,8 @@ public class SoundManager : MonoBehaviour
         soundChannel.OnPlayMainMenuMusic += PlayMainMenuMusic;
         soundChannel.OnStopAllAudioAction += StopAllAudio;
         soundChannel.OnPlayMansionSceneMusicAction += PlayMansionSceneMusic;
+        soundChannel.OnPlayWinScreenMusic += PlayWinScreenMusic;
+        soundChannel.OnPlayTimeTickSFX += PlayTimeTickSFX;
     }
 
     private void OnDisable()
@@ -38,6 +42,8 @@ public class SoundManager : MonoBehaviour
         soundChannel.OnPlayMainMenuMusic -= PlayMainMenuMusic;
         soundChannel.OnStopAllAudioAction -= StopAllAudio;
         soundChannel.OnPlayMansionSceneMusicAction -= PlayMansionSceneMusic;
+        soundChannel.OnPlayWinScreenMusic -= PlayWinScreenMusic;
+        soundChannel.OnPlayTimeTickSFX -= PlayTimeTickSFX;
     }
 
 
@@ -73,5 +79,15 @@ public class SoundManager : MonoBehaviour
     private void PlayMansionSceneMusic()
     {
         InitAudioOptions(musicMansionScene);
+    }
+
+    private void PlayTimeTickSFX()
+    {
+        InitAudioOptions(timeTick);
+    }
+
+    private void PlayWinScreenMusic()
+    {
+        InitAudioOptions(musicWinScreen);
     }
 }

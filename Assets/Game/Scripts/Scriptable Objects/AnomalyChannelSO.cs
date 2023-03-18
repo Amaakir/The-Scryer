@@ -14,6 +14,9 @@ public class AnomalyChannelSO : ScriptableObject
     public delegate void SendAnomalyGuessCallback(string anomalyGuess, string roomGuess);
     public SendAnomalyGuessCallback OnSendAnomalyGuess;
 
+    public delegate void StopSpawnTimerCallback();
+    public StopSpawnTimerCallback OnStopSpawnTimer;
+
     public void StartSpawnTimerAction()
     {
         OnStartSpawnTimer?.Invoke();
@@ -27,6 +30,11 @@ public class AnomalyChannelSO : ScriptableObject
     public void SendAnomalyGuessAction(string anomalyGuess, string roomGuess)
     {
         OnSendAnomalyGuess?.Invoke(anomalyGuess, roomGuess);
+    }
+
+    public void StopSpawnTimerAction()
+    {
+        OnStopSpawnTimer?.Invoke();
     }
 
 }

@@ -7,6 +7,7 @@ public class AnomalySpawnTimer : MonoBehaviour
 {
     [Header("Anomaly Timer Settings")]
     [SerializeField] bool canAnomaliesSpawn = false;
+    [SerializeField] bool pauseSpawnTimer = false;
     [SerializeField] float anomalySpawnTimer = 0;
     [SerializeField] float minAnomalyTimer;
     [SerializeField] float maxAnomalyTimer;
@@ -26,16 +27,18 @@ public class AnomalySpawnTimer : MonoBehaviour
     private void OnEnable()
     {
         anomalyChannel.OnStartSpawnTimer += StartAnomalyTimer;
+        anomalyChannel.OnStopSpawnTimer += StopAnomalyTimer;
     }
 
     private void OnDisable()
     {
         anomalyChannel.OnStartSpawnTimer -= StartAnomalyTimer;
+        anomalyChannel.OnStopSpawnTimer += StopAnomalyTimer;
     }
 
     private void Update()
     {
-        if (canAnomaliesSpawn)
+        if (canAnomaliesSpawn && !pauseSpawnTimer)
         {
             AnomalyTimer();
         }
@@ -47,15 +50,25 @@ public class AnomalySpawnTimer : MonoBehaviour
         ResetAnomalyTimer();
     }
 
+    private void StopAnomalyTimer()
+    {
+        TriggerAnomalyTimer(false);
+    }
+
     private void TriggerAnomalyTimer(bool value)
     {
         canAnomaliesSpawn = value;
     }
 
+    private void PauseAnomalyTimer(bool value)
+    {
+        pauseSpawnTimer = value;
+    }
+
     private void ResetAnomalyTimer()
     {
         anomalySpawnTimer = GetRandomAnomalyTimer();
-        TriggerAnomalyTimer(true);
+        PauseAnomalyTimer(false);
     }
 
     private float GetRandomAnomalyTimer()
@@ -73,7 +86,7 @@ public class AnomalySpawnTimer : MonoBehaviour
     {
         if (anomalySpawnTimer < 0)
         {
-            TriggerAnomalyTimer(false);
+            PauseAnomalyTimer(true);
             anomalyChannel.SpawnAnomalyAction();
             SpawnCooldownCoroutine = StartCoroutine(SpawnerCooldown());
         }

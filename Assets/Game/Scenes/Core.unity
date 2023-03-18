@@ -157,10 +157,13 @@ MonoBehaviour:
   gameTime: 0
   hasGameIntro: 0
   timeBeforeAnomalies: 6
+  winTime: 360
   timeScale: 0.3
+  timePassAudio: {fileID: 11400000, guid: 992fa038a7a103b46af0a0ba0807b039, type: 2}
   uiChannel: {fileID: 11400000, guid: babcfc43f0f1a1a4f8a72f1f7a31e12b, type: 2}
   anomalyChannel: {fileID: 11400000, guid: a2e5df6875b86524da5057f377c9e2a8, type: 2}
   gameStateChannel: {fileID: 11400000, guid: 49fb102248640f04d8d4f25f85ae35fb, type: 2}
+  soundChannel: {fileID: 11400000, guid: 4af308c9457369d43a7639baa3f20623, type: 2}
 --- !u!4 &335922441
 Transform:
   m_ObjectHideFlags: 0
@@ -189,6 +192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canAnomaliesSpawn: 0
+  pauseSpawnTimer: 0
   anomalySpawnTimer: 0
   minAnomalyTimer: 6
   maxAnomalyTimer: 8
@@ -361,8 +365,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicMainMenu: {fileID: 11400000, guid: 0c2227663b668c04da22b4ed44118ed8, type: 2}
   musicMansionScene: {fileID: 11400000, guid: 63ced1b051eafce4b9f343f2d48518fe, type: 2}
+  musicWinScreen: {fileID: 11400000, guid: 989bbaf31efa80a439e495a496bb0391, type: 2}
   staticShort: {fileID: 11400000, guid: d3c9fb69772f54a43b7b40b31d2671b6, type: 2}
   staticLong: {fileID: 11400000, guid: f89c4dd3fe762ae44a9413ec405583d2, type: 2}
+  timeTick: {fileID: 11400000, guid: 992fa038a7a103b46af0a0ba0807b039, type: 2}
   soundChannel: {fileID: 11400000, guid: 4af308c9457369d43a7639baa3f20623, type: 2}
 --- !u!81 &8847161318911577301
 AudioListener:

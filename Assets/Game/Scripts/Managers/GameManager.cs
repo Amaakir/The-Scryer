@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] CameraChannelSO cameraChannel;
 
     private string gameDifficulty = "Normal";
+    private string currentLevel = "Menu";
 
     private void Start()
     {
@@ -29,12 +30,14 @@ public class GameManager : MonoBehaviour
     {
         gameStateChannel.OnSceneLoaded += InitLoadedScene;
         gameStateChannel.OnSetGameDifficulty += SetGameDifficulty;
+        gameStateChannel.OnWinGame += WinGame;
     }
 
     private void OnDisable()
     {
         gameStateChannel.OnSceneLoaded -= InitLoadedScene;
         gameStateChannel.OnSetGameDifficulty -= SetGameDifficulty;
+        gameStateChannel.OnWinGame -= WinGame;
     }
 
     private void InitGame()
@@ -92,9 +95,9 @@ public class GameManager : MonoBehaviour
     private void InitMansion()
     {
         SpawnRoomCameras();
+        currentLevel = "Mansion";
         gameStateChannel.TriggerGameTimeAction(true);
         cameraChannel.InitSceneCamerasAction();
-        //anomalyChannel.StartAnomalyTimerAction();
     }
 
     private void SpawnRoomCameras()
@@ -111,6 +114,16 @@ public class GameManager : MonoBehaviour
     {
         soundChannel.OnStopAllAudioAction();
         soundChannel.OnPlayMansionSceneMusicAction();//Refactor para que cambie la musica segun la escena y usarlo en InitMainMenu
+    }
+
+    private void WinGame()
+    {
+        Debug.Log("You've beat the game!");
+        gameStateChannel.TriggerPlayerInteractionAction(false);
+        anomalyChannel.StopSpawnTimerAction();
+        soundChannel.StopAllAudioAction();
+        soundChannel.PlayTimeTickSFXAction();
+        soundChannel.PlayWinScreenMusicAction();
     }
 
 }

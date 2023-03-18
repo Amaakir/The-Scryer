@@ -18,6 +18,12 @@ public class SoundChannelSO : ScriptableObject
     public delegate void PlayMansionSceneMusicCallback();
     public PlayMansionSceneMusicCallback OnPlayMansionSceneMusicAction;
 
+    public delegate void PlayTimeTickSFXCallback();
+    public PlayTimeTickSFXCallback OnPlayTimeTickSFX;
+
+    public delegate void PlayWinScreenMusicCallback();
+    public PlayWinScreenMusicCallback OnPlayWinScreenMusic;
+
 
     public void PlayAudioAction(AudioClipDataSO audioClipData)
     {
@@ -37,5 +43,15 @@ public class SoundChannelSO : ScriptableObject
     public void PlayMansionSceneMusic()
     {
         OnPlayMansionSceneMusicAction?.Invoke();
+    }
+
+    public void PlayTimeTickSFXAction()
+    {
+        OnPlayTimeTickSFX?.Invoke();
+    }
+
+    public void PlayWinScreenMusicAction()
+    {
+        OnPlayWinScreenMusic?.Invoke();
     }
 }
