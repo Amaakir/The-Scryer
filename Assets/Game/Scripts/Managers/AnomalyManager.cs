@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class AnomalyManager : MonoBehaviour
 {
+    [SerializeField] bool isGameOver = false;
+    [SerializeField] int numberForGameOver;
     [SerializeField] List<GameObject> anomalies = new List<GameObject>();
     [SerializeField] List<GameObject> activeAnomalies = new List<GameObject>();
 
@@ -33,12 +35,40 @@ public class AnomalyManager : MonoBehaviour
     {
         anomalyChannel.OnSpawnAnomaly += SpawnAnomaly;
         anomalyChannel.OnSendAnomalyGuess += AnomalyGuess;
+        anomalyChannel.OnGetTotalAnomaliesFixed += GetTotalAnomaliesFixed;
     }
 
     private void OnDisable()
     {
         anomalyChannel.OnSpawnAnomaly -= SpawnAnomaly;
         anomalyChannel.OnSendAnomalyGuess -= AnomalyGuess;
+        anomalyChannel.OnGetTotalAnomaliesFixed -= GetTotalAnomaliesFixed;
+    }
+
+    private void FixedUpdate()
+    {
+        if (!isGameOver)
+        {
+            CheckForDefeat();
+        }
+        
+    }
+
+    private void CheckForDefeat()
+    {
+        if(activeAnomalies.Count > numberForGameOver)
+        {
+            InitGameOver();
+        }
+    }
+
+    private void InitGameOver()
+    {
+        isGameOver = true;
+        gameStateChannel.PlayJumpscareAction();
+        gameStateChannel.TriggerGameTimeAction(false);
+        gameStateChannel.TriggerPlayerInteractionAction(false);
+        anomalyChannel.StopSpawnTimerAction();
     }
 
     private void SpawnAnomaly()
@@ -97,5 +127,10 @@ public class AnomalyManager : MonoBehaviour
     private void NoAnomalyFound()
     {
         uiChannel.DisplayErrorMessageAction("No anomaly of that type found...");
+    }
+
+    private void GetTotalAnomaliesFixed()
+    {
+        anomalyChannel.SendTotalAnomaliesFixedAction(detectedAnomalies);
     }
 }

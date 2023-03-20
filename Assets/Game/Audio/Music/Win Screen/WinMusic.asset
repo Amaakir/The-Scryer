@@ -17,6 +17,6 @@ MonoBehaviour:
   trackMusic: 1
   trackSFX: 0
   trackUI: 0
-  audioVolume: 0.6
+  audioVolume: 0.4
   isLoop: 1
   audioOrigin: {fileID: 0}

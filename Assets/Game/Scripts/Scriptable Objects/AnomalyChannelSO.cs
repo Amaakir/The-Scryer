@@ -17,6 +17,12 @@ public class AnomalyChannelSO : ScriptableObject
     public delegate void StopSpawnTimerCallback();
     public StopSpawnTimerCallback OnStopSpawnTimer;
 
+    public delegate void GetTotalAnomaliesFixedCallback();
+    public GetTotalAnomaliesFixedCallback OnGetTotalAnomaliesFixed;
+
+    public delegate void SendTotalAnomaliesFixedCallback(int amount);
+    public SendTotalAnomaliesFixedCallback OnSendTotalAnomaliesFixed;
+
     public void StartSpawnTimerAction()
     {
         OnStartSpawnTimer?.Invoke();
@@ -35,6 +41,16 @@ public class AnomalyChannelSO : ScriptableObject
     public void StopSpawnTimerAction()
     {
         OnStopSpawnTimer?.Invoke();
+    }
+
+    public void GetTotalAnomaliesFixedAction()
+    {
+        OnGetTotalAnomaliesFixed?.Invoke();
+    }
+
+    public void SendTotalAnomaliesFixedAction(int amount)
+    {
+        OnSendTotalAnomaliesFixed?.Invoke(amount);
     }
 
 }

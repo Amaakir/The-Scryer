@@ -22,18 +22,28 @@ public class AnomalySpawnTimer : MonoBehaviour
     private void Start()
     {
         gameTime = GetComponent<GameTime>();
+        InitAnomalySpawnTimer();
+    }
+
+    private void InitAnomalySpawnTimer()
+    {
+        canAnomaliesSpawn = false;
+        pauseSpawnTimer = false;
+        anomalySpawnTimer = 0;
     }
 
     private void OnEnable()
     {
         anomalyChannel.OnStartSpawnTimer += StartAnomalyTimer;
         anomalyChannel.OnStopSpawnTimer += StopAnomalyTimer;
+        gameStateChannel.OnResetCoreData += InitAnomalySpawnTimer;
     }
 
     private void OnDisable()
     {
         anomalyChannel.OnStartSpawnTimer -= StartAnomalyTimer;
-        anomalyChannel.OnStopSpawnTimer += StopAnomalyTimer;
+        anomalyChannel.OnStopSpawnTimer -= StopAnomalyTimer;
+        gameStateChannel.OnResetCoreData -= InitAnomalySpawnTimer;
     }
 
     private void Update()

@@ -228,6 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0148e33ad2873c4fbcde10644508efe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  nightmareMansion: 0
   mansionRooms:
   - {fileID: 11400000, guid: 129f88103560c004992017990200c768, type: 2}
   - {fileID: 11400000, guid: 95b54a5e225f09b46af64f44e58b0e2c, type: 2}
@@ -366,10 +367,13 @@ MonoBehaviour:
   musicMainMenu: {fileID: 11400000, guid: 0c2227663b668c04da22b4ed44118ed8, type: 2}
   musicMansionScene: {fileID: 11400000, guid: 63ced1b051eafce4b9f343f2d48518fe, type: 2}
   musicWinScreen: {fileID: 11400000, guid: 989bbaf31efa80a439e495a496bb0391, type: 2}
+  musicGameOver: {fileID: 11400000, guid: 8f0b5c5ded7cfae44979db391271ebe4, type: 2}
   staticShort: {fileID: 11400000, guid: d3c9fb69772f54a43b7b40b31d2671b6, type: 2}
   staticLong: {fileID: 11400000, guid: f89c4dd3fe762ae44a9413ec405583d2, type: 2}
   timeTick: {fileID: 11400000, guid: 992fa038a7a103b46af0a0ba0807b039, type: 2}
+  jumpscareSFX: {fileID: 11400000, guid: 82cadd6a93f64f74386da10efdc3a445, type: 2}
   soundChannel: {fileID: 11400000, guid: 4af308c9457369d43a7639baa3f20623, type: 2}
+  gameStateChannel: {fileID: 11400000, guid: 49fb102248640f04d8d4f25f85ae35fb, type: 2}
 --- !u!81 &8847161318911577301
 AudioListener:
   m_ObjectHideFlags: 0

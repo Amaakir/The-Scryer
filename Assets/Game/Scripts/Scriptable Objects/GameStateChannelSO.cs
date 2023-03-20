@@ -33,6 +33,15 @@ public class GameStateChannelSO : ScriptableObject
     public delegate void WinGameCallback();
     public WinGameCallback OnWinGame;
 
+    public delegate void ReturnToMainMenuCallback();
+    public ReturnToMainMenuCallback OnReturnToMainMenu;
+
+    public delegate void ResetCoreDataCallback();
+    public ResetCoreDataCallback OnResetCoreData;
+
+    public delegate void PlayJumpscareCallback();
+    public PlayJumpscareCallback OnPlayJumpscare;
+
     public void LoadSceneAction(string name)
     {
         OnLoadScene?.Invoke(name);
@@ -77,4 +86,20 @@ public class GameStateChannelSO : ScriptableObject
     {
         OnWinGame?.Invoke();
     }
+
+    public void ReturnToMainMenuAction()
+    {
+        OnReturnToMainMenu?.Invoke();
+    }
+
+    public void ResetCoreDataAction()
+    {
+        OnResetCoreData?.Invoke();
+    }
+
+    public void PlayJumpscareAction()
+    {
+        OnPlayJumpscare?.Invoke();
+    }
+
 }

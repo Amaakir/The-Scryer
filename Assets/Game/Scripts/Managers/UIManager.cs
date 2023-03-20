@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Playables;
+using System;
 
 public class UIManager : MonoBehaviour
 {
@@ -19,6 +20,30 @@ public class UIManager : MonoBehaviour
     [SerializeReference] float fixAnomalyDuration;
     [SerializeField] TextMeshProUGUI errorMessageText;
     [SerializeField] string reportPendingMessage;
+
+    [Header("Options Menu")]
+    [SerializeField] bool isOptions = false;
+    [SerializeField] GameObject optionsMenuParent;
+
+    [Header("Win Screen")]
+    [SerializeField] float winScreenTick;
+    [SerializeField] GameObject winScreenParent;
+    [SerializeField] GameObject winMessagePopUp;
+    [SerializeField] GameObject winTotalAnomaliesMessage;
+    [SerializeField] GameObject winTotalAnomaliesNumbers;
+    [SerializeField] TextMeshProUGUI totalAnomaliesText;
+    [SerializeField] GameObject winMainMenuBtn;
+    [SerializeField] GameObject winExitGameBtn;
+
+    [Header("Game Over Screen")]
+    [SerializeField] float gameOverScreenTick;
+    [SerializeField] GameObject gameOverUIParent;
+    [SerializeField] GameObject gameOverMessagePopUp;
+    [SerializeField] GameObject gameOverTotalAnomaliesMessage;
+    [SerializeField] GameObject gameOverTotalAnomaliesNumbers;
+    [SerializeField] TextMeshProUGUI gameOverTotalAnomaliesText;
+    [SerializeField] GameObject gameOverMainMenuBtn;
+    [SerializeField] GameObject gameOverExitGameBtn;
 
     [Header("SFX Audio Clips")]
     [SerializeField] AudioClipDataSO staticShort;
@@ -68,6 +93,8 @@ public class UIManager : MonoBehaviour
     private Coroutine reportAnomalyCoroutine;
     private Coroutine camSwitchCoroutine;
     private Coroutine fixAnomalyCoroutine;
+    private Coroutine winScreenCoroutine;
+    private Coroutine gameOverCoroutine;
 
     private void OnEnable()
     {
@@ -78,7 +105,10 @@ public class UIManager : MonoBehaviour
         uiChannel.OnPlayFixAnomalyScreen += StartFixAnomalyCoroutine;
         uiChannel.OnStartGameIntro += PlayIntro;
         gameStateChannel.OnTriggerPlayerInteraction += TriggerInteraction;
-        gameStateChannel.OnWinGame += DisableGameplayUI;
+        gameStateChannel.OnWinGame += StartWinScreenCoroutine;
+        anomalyChannel.OnSendTotalAnomaliesFixed += UpdateTotalAnomaliesFixed;
+        uiChannel.OnTriggerOptionsMenu += TriggerOptionsMenu;
+        uiChannel.OnStartGameOverScreen += StartGameOverCoroutine;
     }
 
     private void OnDisable()
@@ -90,7 +120,10 @@ public class UIManager : MonoBehaviour
         uiChannel.OnPlayFixAnomalyScreen -= StartFixAnomalyCoroutine;
         uiChannel.OnStartGameIntro -= PlayIntro;
         gameStateChannel.OnTriggerPlayerInteraction -= TriggerInteraction;
-        gameStateChannel.OnWinGame -= DisableGameplayUI;
+        gameStateChannel.OnWinGame -= StartWinScreenCoroutine;
+        anomalyChannel.OnSendTotalAnomaliesFixed -= UpdateTotalAnomaliesFixed;
+        uiChannel.OnTriggerOptionsMenu -= TriggerOptionsMenu;
+        uiChannel.OnStartGameOverScreen -= StartGameOverCoroutine;
     }
 
     private void Start()
@@ -98,12 +131,32 @@ public class UIManager : MonoBehaviour
         InitUIManager();
     }
 
+    private void Update()
+    {
+        CheckPlayerInput();
+    }
+
+    private void CheckPlayerInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            OnClickOpenOptions();
+        }
+    }
+
     private void InitUIManager()
     {
         cameraChannel.GetRoomNameAction();
+        isOptions = false;
         isReporting = false;
         isReportMessage = false;
         canInteract = true;
+        winMessagePopUp.SetActive(false);
+        winTotalAnomaliesMessage.SetActive(false);
+        winTotalAnomaliesNumbers.SetActive(false);
+        winMainMenuBtn.SetActive(false);
+        winExitGameBtn.SetActive(false);
+        winScreenParent.SetActive(false);
     }
 
     private void UpdateRoomName(string roomName)
@@ -272,6 +325,22 @@ public class UIManager : MonoBehaviour
         
     }
 
+    public void OnClickMainMenu()
+    {
+        gameStateChannel.ReturnToMainMenuAction();
+    }
+
+    public void OnClickExitGame()
+    {
+        Application.Quit();
+    }
+
+    public void OnClickOpenOptions()
+    {
+        uiChannel.TriggerOptionsMenuAction(!isOptions);
+    }
+
+
     #endregion
 
     private IEnumerator ReportAnomaly(string anomalyGuess, string roomGuess, Button reportButton, GameObject regularText, GameObject reportingText)
@@ -370,5 +439,63 @@ public class UIManager : MonoBehaviour
         gameplayUIParent.SetActive(false);
     }
 
+    private void StartWinScreenCoroutine()
+    {
+        winScreenCoroutine = StartCoroutine(PlayWinScreen());
+    }
+
+    private void UpdateTotalAnomaliesFixed(int amount)
+    {
+        totalAnomaliesText.text = amount.ToString();
+        gameOverTotalAnomaliesText.text = amount.ToString();
+    }
+
+    private IEnumerator PlayWinScreen()
+    {
+        DisableGameplayUI();
+        anomalyChannel.GetTotalAnomaliesFixedAction();
+        winScreenParent.SetActive(true);
+        yield return new WaitForSeconds(fixAnomalyDuration);
+        soundChannel.PlayTimeTickSFXAction();
+        winMessagePopUp.SetActive(true);
+        winTotalAnomaliesMessage.SetActive(true);
+        winTotalAnomaliesNumbers.SetActive(true);
+        yield return new WaitForSeconds(fixAnomalyDuration);
+        soundChannel.PlayTimeTickSFXAction();
+        winMainMenuBtn.SetActive(true);
+        winExitGameBtn.SetActive(true);
+        ResetCoroutine(winScreenCoroutine);
+    }
+
+    private void TriggerOptionsMenu(bool value)
+    {
+        isOptions = value;
+        optionsMenuParent.SetActive(value);
+    }
+
+    private void StartGameOverCoroutine()
+    {
+        gameOverCoroutine = StartCoroutine(PlayGameOverScreen());
+    }
+
+    private IEnumerator PlayGameOverScreen()
+    {
+        DisableGameplayUI();
+        anomalyChannel.GetTotalAnomaliesFixedAction();
+        gameOverUIParent.SetActive(true);
+        soundChannel.PlayGameOverMusicAction();
+        yield return new WaitForSeconds(gameOverScreenTick);
+        soundChannel.PlayTimeTickSFXAction();
+        gameOverMessagePopUp.SetActive(true);
+        yield return new WaitForSeconds(gameOverScreenTick);
+        soundChannel.PlayTimeTickSFXAction();
+        gameOverTotalAnomaliesMessage.SetActive(true);
+        gameOverTotalAnomaliesNumbers.SetActive(true);
+        yield return new WaitForSeconds(gameOverScreenTick);
+        soundChannel.PlayTimeTickSFXAction();
+        gameOverMainMenuBtn.SetActive(true);
+        gameOverExitGameBtn.SetActive(true);
+        ResetCoroutine(gameOverCoroutine);
+    }
 
 }

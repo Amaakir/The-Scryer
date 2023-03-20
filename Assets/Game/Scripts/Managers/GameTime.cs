@@ -34,17 +34,21 @@ public class GameTime : MonoBehaviour
     {
         isTime = false;
         hasGameIntro = false;
+        gameTime = 0;
+        minutesPassed = 0;
         minutesPassed += playAudioEvery;
     }
 
     private void OnEnable()
     {
         gameStateChannel.OnTriggerGameTime += TriggerGameTime;
+        gameStateChannel.OnResetCoreData += InitGameTime;
     }
 
     private void OnDisable()
     {
         gameStateChannel.OnTriggerGameTime -= TriggerGameTime;
+        gameStateChannel.OnResetCoreData -= InitGameTime;
     }
 
     private void Update()

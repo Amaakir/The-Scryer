@@ -5,6 +5,8 @@ using Cinemachine;
 
 public class CameraManager : MonoBehaviour
 {
+    [SerializeField] GameObject jumpscareCamera;
+
     [Header("Event Channels")]
     [SerializeField] CameraChannelSO cameraChannel;
 

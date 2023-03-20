@@ -8,6 +8,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Unlocks")]
+    [SerializeField] bool nightmareMansion = false;
+
     [Header("Room Settings")]
     [SerializeField] RoomSettingsSO[] mansionRooms;
 
@@ -31,6 +34,7 @@ public class GameManager : MonoBehaviour
         gameStateChannel.OnSceneLoaded += InitLoadedScene;
         gameStateChannel.OnSetGameDifficulty += SetGameDifficulty;
         gameStateChannel.OnWinGame += WinGame;
+        gameStateChannel.OnReturnToMainMenu += ReturnToMainMenu;
     }
 
     private void OnDisable()
@@ -38,11 +42,12 @@ public class GameManager : MonoBehaviour
         gameStateChannel.OnSceneLoaded -= InitLoadedScene;
         gameStateChannel.OnSetGameDifficulty -= SetGameDifficulty;
         gameStateChannel.OnWinGame -= WinGame;
+        gameStateChannel.OnReturnToMainMenu -= ReturnToMainMenu;
     }
 
     private void InitGame()
     {
-        gameStateChannel.OnLoadScene("MainMenu");
+        gameStateChannel.LoadSceneAction("MainMenu");
     }
 
     private void InitLoadedScene(string name)
@@ -67,7 +72,7 @@ public class GameManager : MonoBehaviour
 
     private void LoadGameplayUI()
     {
-        gameStateChannel.OnLoadScene("GameplayUI");
+        gameStateChannel.LoadSceneAction("GameplayUI");
     }
 
     private void SetGameDifficulty(string mode)
@@ -78,6 +83,8 @@ public class GameManager : MonoBehaviour
     private void InitMainMenu()
     {
         soundChannel.PlayMainMenuMusicAction();
+        gameStateChannel.ResetCoreDataAction();
+        currentLevel = "Menu";
     }
 
     private int SelectRooms()
@@ -118,12 +125,34 @@ public class GameManager : MonoBehaviour
 
     private void WinGame()
     {
-        Debug.Log("You've beat the game!");
         gameStateChannel.TriggerPlayerInteractionAction(false);
         anomalyChannel.StopSpawnTimerAction();
         soundChannel.StopAllAudioAction();
         soundChannel.PlayTimeTickSFXAction();
         soundChannel.PlayWinScreenMusicAction();
+        HandleUnlocks();
+    }
+
+    private void HandleUnlocks()
+    {
+        switch (currentLevel)
+        {
+            case "Mansion":
+                if (!nightmareMansion)
+                {
+                    nightmareMansion = true;
+                }
+                break;
+            default:
+                Debug.Log("Nothing to unlock...");
+                break;
+        }
+    }
+
+    private void ReturnToMainMenu()
+    {
+        gameStateChannel.UnloadSceneAction(currentLevel);
+        gameStateChannel.LoadUnloadSceneAction("MainMenu", "GameplayUI");
     }
 
 }

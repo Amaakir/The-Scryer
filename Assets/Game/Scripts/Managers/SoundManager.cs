@@ -12,14 +12,17 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioClipDataSO musicMainMenu;
     [SerializeField] AudioClipDataSO musicMansionScene;
     [SerializeField] AudioClipDataSO musicWinScreen;
+    [SerializeField] AudioClipDataSO musicGameOver;
 
     [Header("SFX Tracks")]
     [SerializeField] AudioClipDataSO staticShort;
     [SerializeField] AudioClipDataSO staticLong;
     [SerializeField] AudioClipDataSO timeTick;
+    [SerializeField] AudioClipDataSO jumpscareSFX;
 
     [Header("Event Channels")]
     [SerializeField] SoundChannelSO soundChannel;
+    [SerializeField] GameStateChannelSO gameStateChannel;
     private MMSoundManagerPlayOptions audioClipOptions;
 
     private void Awake()
@@ -34,6 +37,8 @@ public class SoundManager : MonoBehaviour
         soundChannel.OnPlayMansionSceneMusicAction += PlayMansionSceneMusic;
         soundChannel.OnPlayWinScreenMusic += PlayWinScreenMusic;
         soundChannel.OnPlayTimeTickSFX += PlayTimeTickSFX;
+        gameStateChannel.OnPlayJumpscare += PlayJumpscareSFX;
+        soundChannel.OnPlayGameOverMusic += PlayGameOverMusic;
     }
 
     private void OnDisable()
@@ -44,6 +49,8 @@ public class SoundManager : MonoBehaviour
         soundChannel.OnPlayMansionSceneMusicAction -= PlayMansionSceneMusic;
         soundChannel.OnPlayWinScreenMusic -= PlayWinScreenMusic;
         soundChannel.OnPlayTimeTickSFX -= PlayTimeTickSFX;
+        gameStateChannel.OnPlayJumpscare -= PlayJumpscareSFX;
+        soundChannel.OnPlayGameOverMusic -= PlayGameOverMusic;
     }
 
 
@@ -86,8 +93,20 @@ public class SoundManager : MonoBehaviour
         InitAudioOptions(timeTick);
     }
 
+    private void PlayJumpscareSFX()
+    {
+        InitAudioOptions(jumpscareSFX);
+    }
+
     private void PlayWinScreenMusic()
     {
+        MMSoundManagerTrackEvent.Trigger(MMSoundManagerTrackEventTypes.StopTrack, MMSoundManager.MMSoundManagerTracks.Music);
         InitAudioOptions(musicWinScreen);
+    }
+
+    private void PlayGameOverMusic()
+    {
+        MMSoundManagerTrackEvent.Trigger(MMSoundManagerTrackEventTypes.StopTrack, MMSoundManager.MMSoundManagerTracks.Music);
+        InitAudioOptions(musicGameOver);
     }
 }

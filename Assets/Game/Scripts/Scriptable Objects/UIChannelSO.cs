@@ -26,6 +26,12 @@ public class UIChannelSO : ScriptableObject
     public delegate void PlayFixAnomalyScreenCallback();
     public PlayFixAnomalyScreenCallback OnPlayFixAnomalyScreen;
 
+    public delegate void TriggerOptionsMenuCallback(bool value);
+    public TriggerOptionsMenuCallback OnTriggerOptionsMenu;
+
+    public delegate void StartGameOverScreenCallback();
+    public StartGameOverScreenCallback OnStartGameOverScreen;
+
     public void StartGameIntroAction()
     {
         OnStartGameIntro?.Invoke();
@@ -59,5 +65,15 @@ public class UIChannelSO : ScriptableObject
     public void PlayFixAnomalyScreenAction()
     {
         OnPlayFixAnomalyScreen?.Invoke();
+    }
+
+    public void TriggerOptionsMenuAction(bool value)
+    {
+        OnTriggerOptionsMenu?.Invoke(value);
+    }
+
+    public void StartGameOverScreenAction()
+    {
+        OnStartGameOverScreen?.Invoke();
     }
 }

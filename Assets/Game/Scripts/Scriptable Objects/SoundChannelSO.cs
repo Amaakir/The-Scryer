@@ -24,6 +24,9 @@ public class SoundChannelSO : ScriptableObject
     public delegate void PlayWinScreenMusicCallback();
     public PlayWinScreenMusicCallback OnPlayWinScreenMusic;
 
+    public delegate void PlayGameOverMusicCallback();
+    public PlayGameOverMusicCallback OnPlayGameOverMusic;
+
 
     public void PlayAudioAction(AudioClipDataSO audioClipData)
     {
@@ -53,5 +56,10 @@ public class SoundChannelSO : ScriptableObject
     public void PlayWinScreenMusicAction()
     {
         OnPlayWinScreenMusic?.Invoke();
+    }
+
+    public void PlayGameOverMusicAction()
+    {
+        OnPlayGameOverMusic?.Invoke();
     }
 }
