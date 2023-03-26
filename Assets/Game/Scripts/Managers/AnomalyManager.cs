@@ -7,7 +7,9 @@ using UnityEngine;
 
 public class AnomalyManager : MonoBehaviour
 {
+    [SerializeField] bool isWarning = false;
     [SerializeField] bool isGameOver = false;
+    [SerializeField] int numberForWarning;
     [SerializeField] int numberForGameOver;
     [SerializeField] List<GameObject> anomalies = new List<GameObject>();
     [SerializeField] List<GameObject> activeAnomalies = new List<GameObject>();
@@ -16,6 +18,7 @@ public class AnomalyManager : MonoBehaviour
     [SerializeField] GameStateChannelSO gameStateChannel;
     [SerializeField] AnomalyChannelSO anomalyChannel;
     [SerializeField] UIChannelSO uiChannel;
+    [SerializeField] SoundChannelSO soundChannel;
 
     private int totalAnomalies;
     private int detectedAnomalies;
@@ -29,6 +32,8 @@ public class AnomalyManager : MonoBehaviour
     {
         totalAnomalies = 0;
         detectedAnomalies = 0;
+        isWarning = false;
+        isGameOver = false;
     }
 
     private void OnEnable()
@@ -56,10 +61,22 @@ public class AnomalyManager : MonoBehaviour
 
     private void CheckForDefeat()
     {
+        if(activeAnomalies.Count > numberForWarning && !isWarning)
+        {
+            InitWarning();
+        }
+
         if(activeAnomalies.Count > numberForGameOver)
         {
             InitGameOver();
         }
+    }
+
+    private void InitWarning()
+    {
+        isWarning = true;
+        soundChannel.PlayWarningSFXAction();
+        uiChannel.DisplayWarningMessageAction();
     }
 
     private void InitGameOver()
@@ -74,22 +91,33 @@ public class AnomalyManager : MonoBehaviour
     private void SpawnAnomaly()
     {
         GameObject anomalyToSpawn = SearchForInactiveAnomaly();
-
-        anomalyToSpawn.GetComponent<IAnomaly>().ActivateAnomaly();
-        activeAnomalies.Add(anomalyToSpawn);
-        anomalies.Remove(anomalyToSpawn);
-        totalAnomalies++;
+        if(anomalyToSpawn == null)
+        {
+            SpawnAnomaly();
+            return;
+        }
+        else
+        {
+            anomalyToSpawn.GetComponent<IAnomaly>().ActivateAnomaly();
+            activeAnomalies.Add(anomalyToSpawn);
+            anomalies.Remove(anomalyToSpawn);
+            totalAnomalies++;
+        }        
     }
 
     private GameObject SearchForInactiveAnomaly()
     {
         int randomAnomalyIndex = UnityEngine.Random.Range(0, anomalies.Count);
-        Debug.Log($"Inactive anomalies: {anomalies.Count}. Rolling {randomAnomalyIndex}");
 
         if (!anomalies[randomAnomalyIndex].GetComponent<IAnomaly>().IsAnomalyActive())
         {
-            Debug.Log($"Spawning Anomaly {anomalies[randomAnomalyIndex].transform.name} with roll {randomAnomalyIndex}");
-            return anomalies[randomAnomalyIndex];
+            if (!anomalies[randomAnomalyIndex].GetComponent<IAnomaly>().ShyCheck())
+            {
+                Debug.Log($"Spawning Anomaly {anomalies[randomAnomalyIndex].transform.name}");
+                return anomalies[randomAnomalyIndex];
+            }
+            Debug.Log("Anomaly is shy and won't come out!");
+            return null;
         }
         else
         {

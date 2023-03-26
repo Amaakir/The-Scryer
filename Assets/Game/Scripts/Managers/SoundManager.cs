@@ -19,6 +19,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] AudioClipDataSO staticLong;
     [SerializeField] AudioClipDataSO timeTick;
     [SerializeField] AudioClipDataSO jumpscareSFX;
+    [SerializeField] AudioClipDataSO warningSFX;
 
     [Header("Event Channels")]
     [SerializeField] SoundChannelSO soundChannel;
@@ -39,6 +40,7 @@ public class SoundManager : MonoBehaviour
         soundChannel.OnPlayTimeTickSFX += PlayTimeTickSFX;
         gameStateChannel.OnPlayJumpscare += PlayJumpscareSFX;
         soundChannel.OnPlayGameOverMusic += PlayGameOverMusic;
+        soundChannel.OnPlayWarningSFX += PlayWarningSFX;
     }
 
     private void OnDisable()
@@ -51,6 +53,7 @@ public class SoundManager : MonoBehaviour
         soundChannel.OnPlayTimeTickSFX -= PlayTimeTickSFX;
         gameStateChannel.OnPlayJumpscare -= PlayJumpscareSFX;
         soundChannel.OnPlayGameOverMusic -= PlayGameOverMusic;
+        soundChannel.OnPlayWarningSFX -= PlayWarningSFX;
     }
 
 
@@ -96,6 +99,11 @@ public class SoundManager : MonoBehaviour
     private void PlayJumpscareSFX()
     {
         InitAudioOptions(jumpscareSFX);
+    }
+
+    private void PlayWarningSFX()
+    {
+        InitAudioOptions(warningSFX);
     }
 
     private void PlayWinScreenMusic()

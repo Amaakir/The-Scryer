@@ -24,6 +24,7 @@ public class CameraController : MonoBehaviour
         cameraChannel.OnPreviousCamera += PreviousCamera;
         cameraChannel.OnGetRoomName += GetRoomNameEvent;
         gameStateChannel.OnTriggerPlayerInteraction += TriggerInteraction;
+        cameraChannel.OnCompareRoomName += GetActiveRoomName;
     }
 
     private void OnDisable()
@@ -33,6 +34,7 @@ public class CameraController : MonoBehaviour
         cameraChannel.OnPreviousCamera -= PreviousCamera;
         cameraChannel.OnGetRoomName -= GetRoomNameEvent;
         gameStateChannel.OnTriggerPlayerInteraction -= TriggerInteraction;
+        cameraChannel.OnCompareRoomName += GetActiveRoomName;
     }
 
     private void InitVirtualCameras()

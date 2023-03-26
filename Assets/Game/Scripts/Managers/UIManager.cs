@@ -330,6 +330,11 @@ public class UIManager : MonoBehaviour
         gameStateChannel.ReturnToMainMenuAction();
     }
 
+    public void OnClickRetry()
+    {
+        gameStateChannel.ResetCurrentLevelAction();
+    }
+
     public void OnClickExitGame()
     {
         Application.Quit();
@@ -432,6 +437,11 @@ public class UIManager : MonoBehaviour
     {
         anomalyChannel.StartSpawnTimerAction();
         uiChannel.ResetIntroTimelineAction();
+    }
+
+    public void ResetWarningTimeline()
+    {
+        uiChannel.ResetWarningTimelineAction();
     }
 
     private void DisableGameplayUI()

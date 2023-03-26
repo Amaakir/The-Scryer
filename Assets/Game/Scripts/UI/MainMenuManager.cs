@@ -18,6 +18,9 @@ public class MainMenuManager : MonoBehaviour
     [Header("Event Channels")]
     [SerializeField] GameStateChannelSO gameStateChannel;
     [SerializeField] SoundChannelSO soundChannel;
+    [SerializeField] UIChannelSO uiChannel;
+
+    Coroutine startLevelCoroutine;
 
     private void Start()
     {
@@ -56,8 +59,28 @@ public class MainMenuManager : MonoBehaviour
 
     public void OnClickMansionNormal()
     {
+        startLevelCoroutine = StartCoroutine(StartLevel("Mansion"));
+    }
+
+    private IEnumerator StartLevel(string name)
+    {
+        yield return new WaitForFixedUpdate();
+        uiChannel.TriggerLoadingScreenAction(true);
+        yield return new WaitForFixedUpdate();
         MenuNavigation(0, 1, false, false, true);
+        yield return new WaitForFixedUpdate();
         gameStateChannel.SetGameDifficulty("Normal");
-        gameStateChannel.OnLoadUnloadScene("Mansion", "MainMenu");
+        gameStateChannel.OnLoadUnloadScene(name, "MainMenu");
+        yield return new WaitForFixedUpdate();
+        ResetStartLevelCoroutine();
+    }
+
+    private void ResetStartLevelCoroutine()
+    {
+        if (startLevelCoroutine != null)
+        {
+            StopCoroutine(startLevelCoroutine);
+            startLevelCoroutine = null;
+        }
     }
 }

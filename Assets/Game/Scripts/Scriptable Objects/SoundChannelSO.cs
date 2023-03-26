@@ -21,6 +21,9 @@ public class SoundChannelSO : ScriptableObject
     public delegate void PlayTimeTickSFXCallback();
     public PlayTimeTickSFXCallback OnPlayTimeTickSFX;
 
+    public delegate void PlayWarningSFXCallback();
+    public PlayWarningSFXCallback OnPlayWarningSFX;
+
     public delegate void PlayWinScreenMusicCallback();
     public PlayWinScreenMusicCallback OnPlayWinScreenMusic;
 
@@ -51,6 +54,11 @@ public class SoundChannelSO : ScriptableObject
     public void PlayTimeTickSFXAction()
     {
         OnPlayTimeTickSFX?.Invoke();
+    }
+
+    public void PlayWarningSFXAction()
+    {
+        OnPlayWarningSFX?.Invoke();
     }
 
     public void PlayWinScreenMusicAction()

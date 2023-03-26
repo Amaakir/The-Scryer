@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Game/Scenes/GameplayUI.unity
     guid: e34015b008327b64facaaa95656338b8
   - enabled: 1
+    path: Assets/Game/Scenes/LoadingScreen.unity
+    guid: b8b31d734f46fd446a7f160a0f55b737
+  - enabled: 1
     path: Assets/Game/Scenes/Mansion.unity
     guid: 1b28c4acd3a3b8e42831d7a2c126fac1
   m_configObjects: {}

@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
 
     private string gameDifficulty = "Normal";
     private string currentLevel = "Menu";
+    Coroutine retryCoroutine;
 
     private void Start()
     {
@@ -35,6 +36,7 @@ public class GameManager : MonoBehaviour
         gameStateChannel.OnSetGameDifficulty += SetGameDifficulty;
         gameStateChannel.OnWinGame += WinGame;
         gameStateChannel.OnReturnToMainMenu += ReturnToMainMenu;
+        gameStateChannel.OnResetCurrentLevel += RetryCurrentlevel; 
     }
 
     private void OnDisable()
@@ -43,6 +45,7 @@ public class GameManager : MonoBehaviour
         gameStateChannel.OnSetGameDifficulty -= SetGameDifficulty;
         gameStateChannel.OnWinGame -= WinGame;
         gameStateChannel.OnReturnToMainMenu -= ReturnToMainMenu;
+        gameStateChannel.OnResetCurrentLevel -= RetryCurrentlevel;
     }
 
     private void InitGame()
@@ -105,6 +108,7 @@ public class GameManager : MonoBehaviour
         currentLevel = "Mansion";
         gameStateChannel.TriggerGameTimeAction(true);
         cameraChannel.InitSceneCamerasAction();
+        uiChannel.TriggerLoadingScreenAction(false);
     }
 
     private void SpawnRoomCameras()
@@ -119,8 +123,8 @@ public class GameManager : MonoBehaviour
 
     private void PlayNewSceneMusic()
     {
-        soundChannel.OnStopAllAudioAction();
-        soundChannel.OnPlayMansionSceneMusicAction();//Refactor para que cambie la musica segun la escena y usarlo en InitMainMenu
+        soundChannel.StopAllAudioAction();
+        soundChannel.PlayMansionSceneMusic();//Refactor para que cambie la musica segun la escena y usarlo en InitMainMenu
     }
 
     private void WinGame()
@@ -153,6 +157,34 @@ public class GameManager : MonoBehaviour
     {
         gameStateChannel.UnloadSceneAction(currentLevel);
         gameStateChannel.LoadUnloadSceneAction("MainMenu", "GameplayUI");
+    }
+
+    private void RetryCurrentlevel()
+    {
+        retryCoroutine = StartCoroutine(RetryCurrentLevelCoroutine());
+    }
+
+    private IEnumerator RetryCurrentLevelCoroutine()
+    {
+        yield return new WaitForFixedUpdate();
+        uiChannel.TriggerLoadingScreenAction(true);
+        yield return new WaitForFixedUpdate();
+        soundChannel.StopAllAudioAction();
+        gameStateChannel.ResetCoreDataAction();
+        yield return new WaitForFixedUpdate();
+        gameStateChannel.UnloadSceneAction("GameplayUI");
+        yield return new WaitForFixedUpdate();
+        gameStateChannel.ReloadSceneAction(currentLevel);
+        ResetRetryCoroutine();
+    }
+
+    private void ResetRetryCoroutine()
+    {
+        if (retryCoroutine != null)
+        {
+            StopCoroutine(retryCoroutine);
+            retryCoroutine = null;
+        }
     }
 
 }

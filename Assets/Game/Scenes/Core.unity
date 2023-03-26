@@ -199,6 +199,52 @@ MonoBehaviour:
   anomalySpawnCooldown: 30
   anomalyChannel: {fileID: 11400000, guid: a2e5df6875b86524da5057f377c9e2a8, type: 2}
   gameStateChannel: {fileID: 11400000, guid: 49fb102248640f04d8d4f25f85ae35fb, type: 2}
+--- !u!1 &1426066347
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1426066349}
+  - component: {fileID: 1426066348}
+  m_Layer: 0
+  m_Name: DebugManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1426066348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426066347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e28fc2f8d129f91408de54c7a55e300a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canDebug: 1
+  cameraChannel: {fileID: 11400000, guid: 8547c5aea773c744ca631e289f2afa13, type: 2}
+--- !u!4 &1426066349
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1426066347}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1471155073
 GameObject:
   m_ObjectHideFlags: 0
@@ -372,6 +418,7 @@ MonoBehaviour:
   staticLong: {fileID: 11400000, guid: f89c4dd3fe762ae44a9413ec405583d2, type: 2}
   timeTick: {fileID: 11400000, guid: 992fa038a7a103b46af0a0ba0807b039, type: 2}
   jumpscareSFX: {fileID: 11400000, guid: 82cadd6a93f64f74386da10efdc3a445, type: 2}
+  warningSFX: {fileID: 11400000, guid: 9a5827820649f784294baa5d04e50043, type: 2}
   soundChannel: {fileID: 11400000, guid: 4af308c9457369d43a7639baa3f20623, type: 2}
   gameStateChannel: {fileID: 11400000, guid: 49fb102248640f04d8d4f25f85ae35fb, type: 2}
 --- !u!81 &8847161318911577301

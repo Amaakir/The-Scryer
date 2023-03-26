@@ -14,6 +14,9 @@ public class UIChannelSO : ScriptableObject
     public delegate void ResetIntroTimelineCallback();
     public ResetIntroTimelineCallback OnResetIntroTimeline;
 
+    public delegate void ResetWarningTimelineCallback();
+    public ResetWarningTimelineCallback OnResetWarningTimeline;
+
     public delegate void PlayIntroDirectorCallback();
     public PlayIntroDirectorCallback OnPlayIntroDirector;
 
@@ -31,6 +34,12 @@ public class UIChannelSO : ScriptableObject
 
     public delegate void StartGameOverScreenCallback();
     public StartGameOverScreenCallback OnStartGameOverScreen;
+
+    public delegate void DisplayWarningMessageCallback();
+    public DisplayWarningMessageCallback OnDisplayWarningMessage;
+
+    public delegate void TriggerLoadingScreenCallback(bool value);
+    public TriggerLoadingScreenCallback OnTriggerLoadingScreen;
 
     public void StartGameIntroAction()
     {
@@ -57,10 +66,16 @@ public class UIChannelSO : ScriptableObject
         OnResetIntroTimeline?.Invoke();
     }
 
+    public void ResetWarningTimelineAction()
+    {
+        OnResetWarningTimeline?.Invoke();
+    }
+
     public void DisplayErrorMessageAction(string message)
     {
         OnDisplayErrorMessage?.Invoke(message);
     }
+
 
     public void PlayFixAnomalyScreenAction()
     {
@@ -75,5 +90,16 @@ public class UIChannelSO : ScriptableObject
     public void StartGameOverScreenAction()
     {
         OnStartGameOverScreen?.Invoke();
+    }
+
+    public void DisplayWarningMessageAction()
+    {
+        OnDisplayWarningMessage?.Invoke();
+
+    }
+
+    public void TriggerLoadingScreenAction(bool value)
+    {
+        OnTriggerLoadingScreen?.Invoke(value);
     }
 }

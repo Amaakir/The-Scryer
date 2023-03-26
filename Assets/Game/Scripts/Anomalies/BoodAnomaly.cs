@@ -5,6 +5,7 @@ using UnityEngine;
 public class BoodAnomaly : MonoBehaviour, IAnomaly
 {
     [Header("Anomaly Info")]
+    [SerializeField] bool isShy;
     [SerializeField] bool isActive = false;
     [SerializeField] string anomalyType;
     [SerializeField] string roomName;
@@ -14,6 +15,7 @@ public class BoodAnomaly : MonoBehaviour, IAnomaly
 
     [Header("Event Channels")]
     [SerializeField] AnomalyChannelSO anomalyChannel;
+    [SerializeField] CameraChannelSO cameraChannel;
     [SerializeField] AnomalySO anomalyNames;
 
 
@@ -36,6 +38,20 @@ public class BoodAnomaly : MonoBehaviour, IAnomaly
             }
         }
         return false;
+    }
+
+    public bool ShyCheck()
+    {
+        if (isShy)
+        {
+            string currentRoom = cameraChannel.CompareRoomNameAction();
+            if (currentRoom == roomName)
+            {
+                return true;
+            }
+            return false;
+        }
+        return false;        
     }
 
     public void ActivateAnomaly()

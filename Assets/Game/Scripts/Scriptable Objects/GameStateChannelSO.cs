@@ -36,6 +36,12 @@ public class GameStateChannelSO : ScriptableObject
     public delegate void ReturnToMainMenuCallback();
     public ReturnToMainMenuCallback OnReturnToMainMenu;
 
+    public delegate void ResetCurrentLevelCallback();
+    public ResetCurrentLevelCallback OnResetCurrentLevel;
+
+    public delegate void ReloadSceneCallback(string name);
+    public ReloadSceneCallback OnReloadScene;
+
     public delegate void ResetCoreDataCallback();
     public ResetCoreDataCallback OnResetCoreData;
 
@@ -90,6 +96,16 @@ public class GameStateChannelSO : ScriptableObject
     public void ReturnToMainMenuAction()
     {
         OnReturnToMainMenu?.Invoke();
+    }
+
+    public void ResetCurrentLevelAction()
+    {
+        OnResetCurrentLevel?.Invoke();
+    }
+
+    public void ReloadSceneAction(string name)
+    {
+        OnReloadScene?.Invoke(name);
     }
 
     public void ResetCoreDataAction()

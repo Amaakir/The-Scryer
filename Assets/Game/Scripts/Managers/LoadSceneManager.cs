@@ -9,12 +9,19 @@ public class LoadSceneManager : MonoBehaviour
     [SerializeField] GameStateChannelSO gameStateChannel;
     Coroutine loadSceneCoroutine;
     Coroutine loadUnloadScenesCoroutine;
+    Coroutine resetSceneCoroutine;
+
+    private void Start()
+    {
+        SceneManager.LoadSceneAsync("LoadingScreen", LoadSceneMode.Additive);
+    }
 
     private void OnEnable()
     {
         gameStateChannel.OnLoadScene += LoadScene;
         gameStateChannel.OnUnloadScene += UnloadScene;
         gameStateChannel.OnLoadUnloadScene += LoadUnloadScenes;
+        gameStateChannel.OnReloadScene += RetryLevel;
     }
 
     private void OnDisable()
@@ -22,6 +29,7 @@ public class LoadSceneManager : MonoBehaviour
         gameStateChannel.OnLoadScene -= LoadScene;
         gameStateChannel.OnUnloadScene -= UnloadScene;
         gameStateChannel.OnLoadUnloadScene -= LoadUnloadScenes;
+        gameStateChannel.OnReloadScene -= RetryLevel;
     }
 
     private void LoadScene(string name)
@@ -80,6 +88,34 @@ public class LoadSceneManager : MonoBehaviour
         {
             StopCoroutine(loadUnloadScenesCoroutine);
             loadUnloadScenesCoroutine = null;
+        }
+    }
+
+    private void RetryLevel(string name)
+    {
+        resetSceneCoroutine = StartCoroutine(ResetSceneCoroutine(name));
+    }
+
+    private IEnumerator ResetSceneCoroutine(string sceneToReset)
+    {
+        yield return new WaitForFixedUpdate();
+        AsyncOperation unloadScene = SceneManager.UnloadSceneAsync(sceneToReset);
+        while (!unloadScene.isDone)
+            yield return null;
+        AsyncOperation loadScene = SceneManager.LoadSceneAsync(sceneToReset, LoadSceneMode.Additive);
+        while (!loadScene.isDone)
+            yield return null;
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName(sceneToReset));
+        gameStateChannel.SceneLoadedAction(sceneToReset);
+        ResetRetryLevelCoroutine();
+    }
+
+    private void ResetRetryLevelCoroutine()
+    {
+        if (resetSceneCoroutine != null)
+        {
+            StopCoroutine(resetSceneCoroutine);
+            resetSceneCoroutine = null;
         }
     }
 }

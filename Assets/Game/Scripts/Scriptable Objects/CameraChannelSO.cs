@@ -26,6 +26,9 @@ public class CameraChannelSO : ScriptableObject
     public delegate void UpdateRoomNameCallback(string roomName);
     public UpdateRoomNameCallback OnUpdateRoomName;
 
+    public delegate string CompareRoomNameCallback();
+    public CompareRoomNameCallback OnCompareRoomName;
+
     public void InitSceneCamerasAction()
     {
         OnInitSceneCameras?.Invoke();
@@ -54,5 +57,10 @@ public class CameraChannelSO : ScriptableObject
     public void UpdateRoomNameAction(string roomName)
     {
         OnUpdateRoomName?.Invoke(roomName);
+    }
+
+    public string CompareRoomNameAction()
+    {
+        return OnCompareRoomName?.Invoke();
     }
 }
