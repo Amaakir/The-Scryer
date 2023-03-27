@@ -257,14 +257,14 @@ public class UIManager : MonoBehaviour
         
     }
 
-    public void OnClickCameraMalfunction()
+    public void OnClickLightAnomaly()
     {
         if (canInteract)
         {
             if (!isReporting)
             {
                 reportAnomalyCoroutine = StartCoroutine(
-                    ReportAnomaly(anomalyNames.cameraAnomalyName, activeRoomName, cameraButton, cameraText, reportCameraText));
+                    ReportAnomaly(anomalyNames.lightAnomalyName, activeRoomName, cameraButton, cameraText, reportCameraText));
             }
             else
             {

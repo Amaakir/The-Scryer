@@ -10,7 +10,7 @@ public class AnomalySO : ScriptableObject
     [SerializeField] public string bloodAnomalyName;
     [SerializeField] public string openCloseAnomalyName;
     [SerializeField] public string intruderAnomalyName;
-    [SerializeField] public string cameraAnomalyName;
+    [SerializeField] public string lightAnomalyName;
     [SerializeField] public string objDisappearanceAnomalyName;
     [SerializeField] public string extraObjAnomalyName;
     [SerializeField] public string objMovementAnomalyName;

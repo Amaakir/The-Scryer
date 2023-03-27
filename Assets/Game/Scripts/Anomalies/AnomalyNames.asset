@@ -16,7 +16,7 @@ MonoBehaviour:
   bloodAnomalyName: Blood
   openCloseAnomalyName: OpenClose
   intruderAnomalyName: Intruder
-  cameraAnomalyName: Camera
+  lightAnomalyName: LightAnomaly
   objDisappearanceAnomalyName: ObjDissapearance
   extraObjAnomalyName: ExtraObj
   objMovementAnomalyName: ObjMovement

@@ -483,7 +483,7 @@ GameObject:
   - component: {fileID: 65526551}
   - component: {fileID: 65526550}
   m_Layer: 0
-  m_Name: Report Camera Malfunction
+  m_Name: Report Light Anomaly
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1009,7 +1009,6 @@ MonoBehaviour:
   roomNameText: {fileID: 639440154}
   reportTime: 8
   gameplayUIParent: {fileID: 1561495844}
-  loadingScreen: {fileID: 839939244}
   camSwitchScreen: {fileID: 810674451}
   camSwitchDuration: 0.1
   fixAnomalyScreen: {fileID: 718823336}
@@ -3337,7 +3336,7 @@ GameObject:
   - component: {fileID: 339027649}
   - component: {fileID: 339027648}
   m_Layer: 0
-  m_Name: Reporting Camera Malfunction
+  m_Name: Reporting Light Anomaly
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9315,7 +9314,7 @@ GameObject:
   - component: {fileID: 1163703199}
   - component: {fileID: 1163703198}
   m_Layer: 0
-  m_Name: Report Camera Malfunction Txt
+  m_Name: Report Light Anomaly Txt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9361,9 +9360,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Camera
+  m_text: 'Light
 
-    Malfunction'
+    Anomaly'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 776000c1b6b63b847a895ded259c6e31, type: 2}
   m_sharedMaterial: {fileID: -5601566440932479700, guid: 776000c1b6b63b847a895ded259c6e31,

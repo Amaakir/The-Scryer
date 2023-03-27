@@ -11,7 +11,9 @@ public class ObjDisappearanceAnomaly : MonoBehaviour, IAnomaly
     [SerializeField] string roomName;
 
     [Header("Object Disappearance Anomaly Settings")]
-    [SerializeField] GameObject objectToDisappear;
+    [SerializeField] bool replaceObjects;
+    [SerializeField] GameObject[] objectsToDisappear;
+    [SerializeField] GameObject[] objectsToReplaceWith;
 
     [Header("Event Channels")]
     [SerializeField] AnomalyChannelSO anomalyChannel;
@@ -55,13 +57,33 @@ public class ObjDisappearanceAnomaly : MonoBehaviour, IAnomaly
     public void ActivateAnomaly()
     {
         isActive = true;
-        objectToDisappear.SetActive(false);
+        foreach(GameObject prefabs in objectsToDisappear)
+        {
+            prefabs.SetActive(false);
+        }
+        if (replaceObjects)
+        {
+            foreach(GameObject prefabs in objectsToReplaceWith)
+            {
+                prefabs.SetActive(true);
+            }
+        }
     }
 
     public void DeactivateAnomaly()
     {
         isActive = false;
-        objectToDisappear.SetActive(true);
+        foreach (GameObject prefabs in objectsToDisappear)
+        {
+            prefabs.SetActive(true);
+        }
+        if (replaceObjects)
+        {
+            foreach (GameObject prefabs in objectsToReplaceWith)
+            {
+                prefabs.SetActive(false);
+            }
+        }
     }
 
     public bool IsAnomalyActive()
