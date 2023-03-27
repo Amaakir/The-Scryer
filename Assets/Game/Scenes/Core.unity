@@ -194,8 +194,8 @@ MonoBehaviour:
   canAnomaliesSpawn: 0
   pauseSpawnTimer: 0
   anomalySpawnTimer: 0
-  minAnomalyTimer: 6
-  maxAnomalyTimer: 8
+  minAnomalyTimer: 5
+  maxAnomalyTimer: 7
   anomalySpawnCooldown: 30
   anomalyChannel: {fileID: 11400000, guid: a2e5df6875b86524da5057f377c9e2a8, type: 2}
   gameStateChannel: {fileID: 11400000, guid: 49fb102248640f04d8d4f25f85ae35fb, type: 2}

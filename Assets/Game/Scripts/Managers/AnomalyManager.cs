@@ -113,8 +113,13 @@ public class AnomalyManager : MonoBehaviour
         {
             if (!anomalies[randomAnomalyIndex].GetComponent<IAnomaly>().ShyCheck())
             {
-                Debug.Log($"Spawning Anomaly {anomalies[randomAnomalyIndex].transform.name}");
-                return anomalies[randomAnomalyIndex];
+                if (!anomalies[randomAnomalyIndex].GetComponent<IAnomaly>().CooldownCheck())
+                {
+                    Debug.Log($"Spawning Anomaly {anomalies[randomAnomalyIndex].transform.name}");
+                    return anomalies[randomAnomalyIndex];
+                }
+                Debug.Log("Anomaly is on Cooldown!");
+                return null;
             }
             Debug.Log("Anomaly is shy and won't come out!");
             return null;

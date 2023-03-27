@@ -6,6 +6,7 @@ public class ExtraObjAnomaly : MonoBehaviour, IAnomaly
 {
     [Header("Anomaly Info")]
     [SerializeField] bool isShy;
+    [SerializeField] bool isOnCooldown;
     [SerializeField] bool isActive = false;
     [SerializeField] string anomalyType;
     [SerializeField] string roomName;
@@ -52,6 +53,16 @@ public class ExtraObjAnomaly : MonoBehaviour, IAnomaly
         return false;
     }
 
+    public bool CooldownCheck()
+    {
+        if (isOnCooldown)
+        {
+            return true;
+        }
+        return false;
+
+    }
+
     public void ActivateAnomaly()
     {
         isActive = true;
@@ -61,6 +72,7 @@ public class ExtraObjAnomaly : MonoBehaviour, IAnomaly
     public void DeactivateAnomaly()
     {
         isActive = false;
+        isOnCooldown = true;
         extraObject.SetActive(false);
     }
 

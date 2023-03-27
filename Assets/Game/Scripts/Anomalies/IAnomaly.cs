@@ -6,6 +6,8 @@ public interface IAnomaly
 {
     bool ShyCheck();
 
+    bool CooldownCheck();
+
     bool VerifyAnomaly(string anomalyGuess, string roomGuess);
 
     void ActivateAnomaly();

@@ -6,6 +6,7 @@ public class PictureAnomaly : MonoBehaviour, IAnomaly
 {
     [Header("Anomaly Info")]
     [SerializeField] bool isShy;
+    [SerializeField] bool isOnCooldown;
     [SerializeField] bool isActive = false;
     [SerializeField] string anomalyType;
     [SerializeField] string roomName;
@@ -54,6 +55,16 @@ public class PictureAnomaly : MonoBehaviour, IAnomaly
         return false;
     }
 
+    public bool CooldownCheck()
+    {
+        if (isOnCooldown)
+        {
+            return true;
+        }
+            return false;    
+
+    }
+
     public void ActivateAnomaly()
     {
         isActive = true;
@@ -64,6 +75,7 @@ public class PictureAnomaly : MonoBehaviour, IAnomaly
     public void DeactivateAnomaly()
     {
         isActive = false;
+        isOnCooldown = true;
         originalPicture.SetActive(true);
         anomalyPicture.SetActive(false);
     }
